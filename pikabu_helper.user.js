@@ -24,7 +24,6 @@
 
 	var path = window.location.pathname;
 	path = path.replace(/\/+/g, "/");
-	//if (path.startsWith("/api")) return;
 	if(DEBUG) console.log("🐾 path: " + path);
 
 	var referrer = document.referrer;
