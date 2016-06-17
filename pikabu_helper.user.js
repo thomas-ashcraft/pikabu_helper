@@ -1,4 +1,4 @@
-﻿// ==UserScript==
+// ==UserScript==
 // @name         Pikabu helper
 // @namespace    https://github.com/thomas-ashcraft
 // @version      0.1
@@ -12,7 +12,7 @@
 // ==/UserScript==
 
 (function() {
-	var version = "0.1"
+	var version = "0.1";
 
 	var console_info=["%c pikabu🍩 %chelper v"+version+" %c http://pikabu.ru ","background: #79c36c;color: #FFFFFF", "background: #79c36c;color: #ffffff",""];
 	console.log.apply(console,console_info);
