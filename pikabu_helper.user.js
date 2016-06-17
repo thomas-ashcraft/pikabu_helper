@@ -34,11 +34,6 @@
 	var pikabu_helper_style = `
 		.ph_user_carma_ratio {border-color: #606050; border-radius: 20px; border-style: solid; border-width: 0 2px; display: inline-block; text-align: center; text-shadow: -1px -1px 2px #ffffff, 1px 1px 2px #ffffff; vertical-align: middle; white-space: nowrap;}
 		.ph_fixed_link_check{}
-
-		#search-bar-helper {background-color: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 0 0 4px 4px; box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.2); left: -1px; margin-top: -2px; padding: 0 8px; position: absolute;}
-		#search-bar-helper > span:not(:last-child) {margin-right: 5px;}
-		#search-bar-helper > span {background-color: rgba(255, 255, 255, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 4px; line-height: 34px; min-height: 26px; padding: 4px 8px;}
-		#search-bar-helper > span:hover {background-color: rgba(255, 255, 255, 0.7);}
 		`;
 	document.head.appendChild(document.createElement('style')).innerHTML=pikabu_helper_style.replace(/([\s\S]*?return;){2}([\s\S]*)}/,'$2');
 
