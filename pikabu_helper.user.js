@@ -31,7 +31,7 @@
 
 	// Embed style
 	var pikabu_helper_style = `
-		.ph_user_carma_ratio {border-color: #606050; border-radius: 20px; border-style: solid; border-width: 0 2px; display: inline-block; text-align: center; text-shadow: -1px -1px 2px #ffffff, 1px 1px 2px #ffffff; vertical-align: middle; white-space: nowrap;}
+		.ph_user_karma_bar {border-color: #606050; border-radius: 20px; border-style: solid; border-width: 0 2px; display: inline-block; text-align: center; text-shadow: -1px -1px 2px #ffffff, 1px 1px 2px #ffffff; vertical-align: middle; white-space: nowrap;}
 		.ph_fixed_link_check{}
 		`;
 	document.head.appendChild(document.createElement('style')).innerHTML=pikabu_helper_style.replace(/([\s\S]*?return;){2}([\s\S]*)}/,'$2');
@@ -50,29 +50,29 @@
 		//pluses = 0; //DEBUG
 		//minuses = 2; //DEBUG
 		var user_carma_ratio_percent = 0;
-		$("div.profile_wrap div:contains('пикабушни') br:last").before("&nbsp;&nbsp;<br><span class='ph_user_carma_ratio'></span>");
-		var ph_user_carma_ratio_borders_width = parseInt($(".ph_user_carma_ratio").css("borderRightWidth"), 10) + parseInt($(".ph_user_carma_ratio").css("borderLeftWidth"), 10);
-		$(".ph_user_carma_ratio").width($(".b-user-profile__label:contains('поставил')").width() + $(".b-user-profile__label:contains('поставил')").next().width() - ph_user_carma_ratio_borders_width);
+		$("div.profile_wrap div:contains('пикабушни') br:last").before("&nbsp;&nbsp;<br><span class='ph_user_karma_bar'></span>");
+		var ph_user_karma_bar_borders_width = parseInt($(".ph_user_karma_bar").css("borderRightWidth"), 10) + parseInt($(".ph_user_karma_bar").css("borderLeftWidth"), 10);
+		$(".ph_user_karma_bar").width($(".b-user-profile__label:contains('поставил')").width() + $(".b-user-profile__label:contains('поставил')").next().width() - ph_user_karma_bar_borders_width);
 		
 		if (pluses!=0 && minuses!=0) {
 			user_carma_ratio_percent = parseFloat((pluses / (pluses+minuses) * 100).toFixed(2), 10);
 		}
 		
 		if (pluses==0 && minuses==0) {
-			$(".ph_user_carma_ratio").text("нейтрал");
-			$(".ph_user_carma_ratio").css("background-color", "#c0c0c0");
+			$(".ph_user_karma_bar").text("нейтрал");
+			$(".ph_user_karma_bar").css("background-color", "#c0c0c0");
 		} else if (pluses==0 && minuses>0) {
-			$(".ph_user_carma_ratio").text("абсолютное зло");
-			$(".ph_user_carma_ratio").css("background-color", "#e89e36");
-			$(".ph_user_carma_ratio").css("box-shadow", "0 0 8px 4px #efd244, 0 0 2px 1px #efd244 inset");
+			$(".ph_user_karma_bar").text("абсолютное зло");
+			$(".ph_user_karma_bar").css("background-color", "#e89e36");
+			$(".ph_user_karma_bar").css("box-shadow", "0 0 8px 4px #efd244, 0 0 2px 1px #efd244 inset");
 		} else if (pluses>0 && minuses==0) {
-			$(".ph_user_carma_ratio").text("длань богов");
-			$(".ph_user_carma_ratio").css("background-color", "#a7d437");
-			$(".ph_user_carma_ratio").css("box-shadow", "0 0 8px 4px #beee44, 0 0 2px 1px #beee44 inset");
+			$(".ph_user_karma_bar").text("длань богов");
+			$(".ph_user_karma_bar").css("background-color", "#a7d437");
+			$(".ph_user_karma_bar").css("box-shadow", "0 0 8px 4px #beee44, 0 0 2px 1px #beee44 inset");
 		} else if (pluses!=0 && minuses!=0) {
 			if(DEBUG) console.log("user_carma_ratio_percent: " + user_carma_ratio_percent);
-			$(".ph_user_carma_ratio").text("коэффициент: " + (pluses/minuses).toFixed(2));
-			$(".ph_user_carma_ratio").css("background-image", "linear-gradient(90deg, #a7d437 " + user_carma_ratio_percent + "%, #606050 " + user_carma_ratio_percent + "%, #606050 " + (user_carma_ratio_percent+0.6) + "%, #e89e36 0%)");
+			$(".ph_user_karma_bar").text("коэффициент: " + (pluses/minuses).toFixed(2));
+			$(".ph_user_karma_bar").css("background-image", "linear-gradient(90deg, #a7d437 " + user_carma_ratio_percent + "%, #606050 " + user_carma_ratio_percent + "%, #606050 " + (user_carma_ratio_percent+0.6) + "%, #e89e36 0%)");
 		}
 	}
 	
