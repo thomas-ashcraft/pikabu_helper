@@ -101,6 +101,11 @@
 	
 	function move_user_profile_tools() {
 		$(".button_subscribe").parent("div").parent("div").append( $(".user-profile-tools"));
+		$(".user-profile-tools").css("width", $(".button_subscribe").css("width"));
+		$(".user-profile-tools").css("text-align", "center");
+		
+		$(".user-profile-tools a[data-action='ignore+']").css("color", "#f75c48").text("в игнор-лист");
+		$(".user-profile-tools a[data-action='ignore-']").css("color", "#78c062").text("из игнор-листа");
 	}
 
 	function all_feeds_functions() {
