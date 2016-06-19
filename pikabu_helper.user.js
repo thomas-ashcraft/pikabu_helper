@@ -31,7 +31,7 @@
 
 	// Embed style
 	var pikabu_helper_style = `
-		.ph_user_karma_bar {border-color: #606050; border-radius: 20px; border-style: solid; border-width: 0 2px; display: inline-block; text-align: center; text-shadow: -1px -1px 2px #ffffff, 1px 1px 2px #ffffff; vertical-align: middle; white-space: nowrap;}
+		.ph_user_karma_bar {border-color: #606050; border-radius: 20px; border-style: solid; border-width: 0 2px; box-shadow: 0 0 1px 0 #000000 inset; display: inline-block; text-align: center; text-shadow: -1px -1px 2px #ffffff, 1px 1px 2px #ffffff; vertical-align: middle; white-space: nowrap;}
 		.ph_fixed_link_check{}
 		`;
 	document.head.appendChild(document.createElement('style')).innerHTML=pikabu_helper_style.replace(/([\s\S]*?return;){2}([\s\S]*)}/,'$2');
@@ -42,20 +42,20 @@
 		//target.effect("highlight", "800");
 	}
 
-	function add_user_carma_ratio_counter() {
+	function add_user_karma_bar() {
 		user_info = $("div.profile_wrap div:contains('пикабушни')").text();
 		pm_counter = /(\d+) плюс.{0,2}\s*(\d+) минус.{0,2}/.exec(user_info);
 		pluses = parseInt(pm_counter[1], 10);
 		minuses = parseInt(pm_counter[2], 10);
 		//pluses = 0; //DEBUG
 		//minuses = 2; //DEBUG
-		var user_carma_ratio_percent = 0;
+		var user_karma_ratio_percent = 0;
 		$("div.profile_wrap div:contains('пикабушни') br:last").before("&nbsp;&nbsp;<br><span class='ph_user_karma_bar'></span>");
 		var ph_user_karma_bar_borders_width = parseInt($(".ph_user_karma_bar").css("borderRightWidth"), 10) + parseInt($(".ph_user_karma_bar").css("borderLeftWidth"), 10);
 		$(".ph_user_karma_bar").width($(".b-user-profile__label:contains('поставил')").width() + $(".b-user-profile__label:contains('поставил')").next().width() - ph_user_karma_bar_borders_width);
 		
 		if (pluses!=0 && minuses!=0) {
-			user_carma_ratio_percent = parseFloat((pluses / (pluses+minuses) * 100).toFixed(2), 10);
+			user_karma_ratio_percent = parseFloat((pluses / (pluses+minuses) * 100).toFixed(2), 10);
 		}
 		
 		if (pluses==0 && minuses==0) {
@@ -70,9 +70,9 @@
 			$(".ph_user_karma_bar").css("background-color", "#a7d437");
 			$(".ph_user_karma_bar").css("box-shadow", "0 0 8px 4px #beee44, 0 0 2px 1px #beee44 inset");
 		} else if (pluses!=0 && minuses!=0) {
-			if(DEBUG) console.log("user_carma_ratio_percent: " + user_carma_ratio_percent);
+			if(DEBUG) console.log("user_karma_ratio_percent: " + user_karma_ratio_percent);
 			$(".ph_user_karma_bar").text("коэффициент: " + (pluses/minuses).toFixed(2));
-			$(".ph_user_karma_bar").css("background-image", "linear-gradient(90deg, #a7d437 " + user_carma_ratio_percent + "%, #606050 " + user_carma_ratio_percent + "%, #606050 " + (user_carma_ratio_percent+0.6) + "%, #e89e36 0%)");
+			$(".ph_user_karma_bar").css("background-image", "linear-gradient(90deg, #a7d437 " + user_karma_ratio_percent + "%, #606050 " + user_karma_ratio_percent + "%, #606050 " + (user_karma_ratio_percent+0.6) + "%, #e89e36 0%)");
 		}
 	}
 	
@@ -114,7 +114,7 @@
 			break;
 		case /^\/profile\/.*/.test(path):
 			if(DEBUG) console.log("SWITCH: 👤 Someone's profile");
-			add_user_carma_ratio_counter();
+			add_user_karma_bar();
 			move_user_profile_tools();
 			break;
 		case /^\/best.*/.test(path):
