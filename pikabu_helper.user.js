@@ -50,7 +50,7 @@
 		//pluses = 0; //DEBUG
 		//minuses = 2; //DEBUG
 		var user_carma_ratio_percent = 0;
-		$("div.profile_wrap div:contains('пикабушни') br:last").before("&nbsp;&nbsp;<span class='ph_user_carma_ratio'></span>");
+		$("div.profile_wrap div:contains('пикабушни') br:last").before("&nbsp;&nbsp;<br><span class='ph_user_carma_ratio'></span>");
 		var ph_user_carma_ratio_borders_width = parseInt($(".ph_user_carma_ratio").css("borderRightWidth"), 10) + parseInt($(".ph_user_carma_ratio").css("borderLeftWidth"), 10);
 		$(".ph_user_carma_ratio").width($(".b-user-profile__label:contains('поставил')").width() + $(".b-user-profile__label:contains('поставил')").next().width() - ph_user_carma_ratio_borders_width);
 		
