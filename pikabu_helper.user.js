@@ -77,7 +77,7 @@
 	}
 	
 	function fix_gleam_url() {
-		var gleam_regex_full_link = /(href=")?(http[s]?:\/\/[gг].?[lл].?[eе]?.?[и]?.?[aа]?.?[mм].?.?[iи].?[oо])(\/[\w]{1,7}\/[\w-]+)/i;
+		var gleam_regex_full_link = /(href=")?(http[s]?:\/\/[gг].?[lл].?[eе]?.?[и]?.?[aа]?.?[mм].{0,3}[iи].?[oо])(\/[\w]{1,7}\/[\w-]+)/i;
 		var ph_fixed_link_check = ' <span class="ph_fixed_link_check" title="Исправлено">☑️</span>';
 
 		$("div.b-story__content p").filter(function () {
