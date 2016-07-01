@@ -17,7 +17,7 @@
 	var console_info=["%c pikabu🍩 %chelper v"+version+" %c http://pikabu.ru ","background: #79c36c;color: #FFFFFF", "background: #79c36c;color: #ffffff",""];
 	console.log.apply(console,console_info);
 	
-	var DEBUG = false;
+	var DEBUG = true;
 
 	var url = window.location.href;
 	if(DEBUG) console.log("🐾 url: " + url);
@@ -100,8 +100,8 @@
 	}
 	
 	function move_user_profile_tools() {
-		$(".button_subscribe").parent("div").parent("div").append( $(".user-profile-tools"));
-		$(".user-profile-tools").css("width", $(".button_subscribe").css("width"));
+		$(".sub_init").parent("div").parent("div").append( $(".user-profile-tools"));
+		$(".user-profile-tools").css("width", $(".sub_init").css("width"));
 		$(".user-profile-tools").css("text-align", "center");
 		
 		$(".user-profile-tools a[data-action='ignore+']").css("color", "#f75c48").text("в игнор-лист");
