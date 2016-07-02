@@ -137,7 +137,7 @@
 			
 			broken_domain_detected = generated_broken_domains_regex.exec($(this).html());
 			if(DEBUG) console.log(broken_domain_detected);
-			fixed_domain = broken_domain_detected[0].replace(/[^\w\.]/gi, '');
+			fixed_domain = broken_domain_detected[0].replace(/[^\w-\.]/gi, '');
 			if(DEBUG) console.log(fixed_domain);
 			
 			if (fixed_domain == broken_domain_detected[0]) {
