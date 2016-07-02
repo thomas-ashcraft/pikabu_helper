@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pikabu helper
 // @namespace    https://github.com/thomas-ashcraft
-// @version      0.2.1
+// @version      0.2.2
 // @description  Улучшайзер маффинов 3000
 // @author       Thomas Ashcraft
 // @match        *://pikabu.ru/*
@@ -12,7 +12,7 @@
 // ==/UserScript==
 
 (function() {
-	var version = "0.2.1";
+	var version = "0.2.2";
 
 	var console_info=["%c pikabu🍩 %chelper v"+version+" %c http://pikabu.ru ","background: #79c36c;color: #FFFFFF", "background: #79c36c;color: #ffffff",""];
 	console.log.apply(console,console_info);
@@ -175,6 +175,17 @@
 		$(".user-profile-tools a[data-action='ignore-']").css("color", "#78c062").text("из игнор-листа");
 	}
 
+	function instant_community_search() {
+		var community_search_submit;
+		$("#cs_text").on("input", function() {
+			clearTimeout(community_search_submit);
+			community_search_submit = setTimeout(function() {
+				$("#cs_text").trigger("submit");
+			}, 400);
+		});
+		//$("#cs_text").off( "change" );
+	}
+
 	function all_feeds_functions() {
 		//fix_gleam_url();
 		fix_links();
@@ -202,6 +213,7 @@
 		case /^\/communities.*/.test(path):
 			if(DEBUG) console.log("SWITCH: 🖐 leagues ALL");
 			all_feeds_functions();
+			instant_community_search();
 			break;
 		case /^\/community\/.*/.test(path):
 			if(DEBUG) console.log("SWITCH: 🖐 league");
