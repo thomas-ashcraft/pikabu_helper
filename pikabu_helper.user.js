@@ -17,7 +17,7 @@
 	var console_info=["%c pikabu🍩 %chelper v"+version+" %c http://pikabu.ru ","background: #79c36c;color: #FFFFFF", "background: #79c36c;color: #ffffff",""];
 	console.log.apply(console,console_info);
 	
-	var DEBUG = true;
+	var DEBUG = false;
 	
 	var broken_domains_list = [
 	"digitalhomicide.ninja",
