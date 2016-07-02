@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pikabu helper
 // @namespace    https://github.com/thomas-ashcraft
-// @version      0.2.0
+// @version      0.2.1
 // @description  Улучшайзер маффинов 3000
 // @author       Thomas Ashcraft
 // @match        *://pikabu.ru/*
@@ -12,7 +12,7 @@
 // ==/UserScript==
 
 (function() {
-	var version = "0.2.0";
+	var version = "0.2.1";
 
 	var console_info=["%c pikabu🍩 %chelper v"+version+" %c http://pikabu.ru ","background: #79c36c;color: #FFFFFF", "background: #79c36c;color: #ffffff",""];
 	console.log.apply(console,console_info);
