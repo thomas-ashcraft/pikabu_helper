@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pikabu helper
 // @namespace    https://github.com/thomas-ashcraft
-// @version      0.1
+// @version      0.2.0
 // @description  Улучшайзер маффинов 3000
 // @author       Thomas Ashcraft
 // @match        *://pikabu.ru/*
@@ -12,12 +12,18 @@
 // ==/UserScript==
 
 (function() {
-	var version = "0.1";
+	var version = "0.2.0";
 
 	var console_info=["%c pikabu🍩 %chelper v"+version+" %c http://pikabu.ru ","background: #79c36c;color: #FFFFFF", "background: #79c36c;color: #ffffff",""];
 	console.log.apply(console,console_info);
 	
 	var DEBUG = true;
+	
+	var broken_domains_list = [
+	"digitalhomicide.ninja",
+	"failmid.com",
+	"hrkgame.com"
+	];
 
 	var url = window.location.href;
 	if(DEBUG) console.log("🐾 url: " + url);
@@ -82,6 +88,8 @@
 
 		$("div.b-story__content p").filter(function () {
 			return gleam_regex_full_link.test($(this).text()); 
+		}).filter(function () {
+			return !/ph_fixed_link_check/m.test($(this).html()); 
 		}).each(function() {
 			if(DEBUG) console.log("gleam TXT link detected here:");
 			if(DEBUG) console.log($(this));
@@ -99,6 +107,65 @@
 		});
 	}
 	
+	function fix_links() {
+		if(DEBUG) console.log(broken_domains_list);
+		all_broken_domains_pattern = "";
+		$.each(broken_domains_list, function( index, value ) {
+			if (index != 0) {
+				all_broken_domains_pattern = all_broken_domains_pattern + '|';
+			}
+			all_broken_domains_pattern = all_broken_domains_pattern + '\(' + value.replace(/(?!\w$)[\w]/gi, function(x) {
+				return x + '.?';
+			}).replace(/\.\?\./g, function(y) {
+				return '.{0,3}';
+			}) + '\)';
+		});
+		//if(DEBUG) console.log(all_broken_domains_pattern);
+		generated_broken_domains_regex = new RegExp (all_broken_domains_pattern, 'i');
+		if(DEBUG) console.log(generated_broken_domains_regex);
+
+		//var all_broken_domains_regex = /(digitalhomicide.{0,3}ninja)|(failmid.{0,3}com)|(hrkgame.{0,3}com)/i;
+		var ph_fixed_link_check = ' <span class="ph_fixed_link_check" title="Исправлено">☑️</span>';
+		
+		$("div.b-story__content p").filter(function () {
+			return generated_broken_domains_regex.test($(this).text()); 
+		}).filter(function () {
+			return !/ph_fixed_link_check/m.test($(this).html()); 
+		}).each(function() {
+			if(DEBUG) console.log("filtered link detected here:");
+			if(DEBUG) console.log($(this));
+			
+			broken_domain_detected = generated_broken_domains_regex.exec($(this).html());
+			if(DEBUG) console.log(broken_domain_detected);
+			fixed_domain = broken_domain_detected[0].replace(/[^\w\.]/gi, '');
+			if(DEBUG) console.log(fixed_domain);
+			
+			if (fixed_domain == broken_domain_detected[0]) {
+				if(DEBUG) console.log("nuff to do here");
+			} else {
+				if(DEBUG) console.log("lets do this");
+				
+				broken_domain_pattern = broken_domain_detected[0].replace(/[^\w]/gi, function(y) {
+					return "\\" + y;
+				});
+				broken_link_regex = new RegExp ('\(href="\)?\([\\w-\\/\\.:]+\)\(' + broken_domain_pattern + '\)\([\\w-\\/?=&#]*\)', 'i');
+				if(DEBUG) console.log(broken_link_regex);
+				
+				broken_link_detected = broken_link_regex.exec($(this).html());
+				if(DEBUG) console.log(broken_link_detected);
+				
+				if (broken_link_detected[1] == null) { // if detected link not clickable (just text)
+					if(DEBUG) console.log("non-click");
+					$(this).html( $(this).html().replace(broken_link_detected[0], '<noindex><a target="_blank" href="' + broken_link_detected[2] + fixed_domain + broken_link_detected[4] + '" rel="nofollow">' + broken_link_detected[2] + fixed_domain + broken_link_detected[4] + '</a>' + ph_fixed_link_check + '</noindex>') );
+				} else { // if detected link clickable (already html tag)
+					if(DEBUG) console.log("already tag");
+					$(this).html( $(this).html().replace(new RegExp (broken_domain_pattern, 'ig'), fixed_domain) );
+					$(this).find("a:contains('" + fixed_domain + "')").after(ph_fixed_link_check);
+				}
+			}
+		});
+	}
+	
 	function move_user_profile_tools() {
 		$(".sub_init").parent("div").parent("div").append( $(".user-profile-tools"));
 		$(".user-profile-tools").css("width", $(".sub_init").css("width"));
@@ -109,13 +176,15 @@
 	}
 
 	function all_feeds_functions() {
-		fix_gleam_url();
+		//fix_gleam_url();
+		fix_links();
 	}
 
 	switch (true) {
 		case /^\/story\/.*/.test(path):
 			if(DEBUG) console.log("SWITCH: 🐈 Time to fucking awesome stories");
-			fix_gleam_url();
+			//fix_gleam_url();
+			fix_links();
 			break;
 		case /^\/profile\/.*/.test(path):
 			if(DEBUG) console.log("SWITCH: 👤 Someone's profile");
