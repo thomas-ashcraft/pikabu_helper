@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pikabu helper
 // @namespace    https://github.com/thomas-ashcraft
-// @version      0.2.2
+// @version      0.2.3
 // @description  Улучшайзер маффинов 3000
 // @author       Thomas Ashcraft
 // @match        *://pikabu.ru/*
@@ -12,7 +12,7 @@
 // ==/UserScript==
 
 (function() {
-	var version = "0.2.2";
+	var version = "0.2.3";
 
 	var console_info=["%c pikabu🍩 %chelper v"+version+" %c http://pikabu.ru ","background: #79c36c;color: #FFFFFF", "background: #79c36c;color: #ffffff",""];
 	console.log.apply(console,console_info);
@@ -22,7 +22,8 @@
 	var broken_domains_list = [
 	"digitalhomicide.ninja",
 	"failmid.com",
-	"hrkgame.com"
+	"hrkgame.com",
+	"woobox.com"
 	];
 
 	var url = window.location.href;
