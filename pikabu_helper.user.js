@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pikabu helper
 // @namespace    https://github.com/thomas-ashcraft
-// @version      0.2.3
+// @version      0.2.4
 // @description  Улучшайзер маффинов 3000
 // @author       Thomas Ashcraft
 // @match        *://pikabu.ru/*
@@ -12,7 +12,7 @@
 // ==/UserScript==
 
 (function() {
-	var version = "0.2.3";
+	var version = "0.2.4";
 
 	var console_info=["%c pikabu🍩 %chelper v"+version+" %c http://pikabu.ru ","background: #79c36c;color: #FFFFFF", "background: #79c36c;color: #ffffff",""];
 	console.log.apply(console,console_info);
@@ -21,9 +21,11 @@
 	
 	var broken_domains_list = [
 	"digitalhomicide.ninja",
-	"failmid.com",
 	"hrkgame.com",
-	"woobox.com"
+	"woobox.com",
+	"whosgamingnow.net",
+	"giveawayoftheday.com",
+	"dlh.net"
 	];
 
 	var url = window.location.href;
@@ -38,7 +40,7 @@
 
 	// Embed style
 	var pikabu_helper_style = `
-		.ph_user_karma_bar {border-color: #606050; border-radius: 20px; border-style: solid; border-width: 0 2px; box-shadow: 0 0 1px 0 #000000 inset; display: inline-block; text-align: center; text-shadow: -1px -1px 2px #ffffff, 1px 1px 2px #ffffff; vertical-align: middle; white-space: nowrap;}
+		.ph_user_karma_bar {border-color: #606050; border-radius: 20px; border-style: solid; border-width: 0 2px; box-shadow: 0 0 1px 0 #000000 inset; display: inline-block; text-align: center; text-shadow: -1px -1px 2px #ffffff, 1px 1px 2px #ffffff; vertical-align: middle; white-space: nowrap; width: 0px; transition: width 0.8s ease-in 0.25s;}
 		.ph_fixed_link_check{}
 		`;
 	document.head.appendChild(document.createElement('style')).innerHTML=pikabu_helper_style.replace(/([\s\S]*?return;){2}([\s\S]*)}/,'$2');
@@ -50,14 +52,14 @@
 	}
 
 	function add_user_karma_bar() {
-		user_info = $("div.profile_wrap div:contains('пикабушни')").text();
+		user_info = $("div.b-user-profile div:contains('пикабушни')").text();
 		pm_counter = /(\d+) плюс.{0,2}\s*(\d+) минус.{0,2}/.exec(user_info);
 		pluses = parseInt(pm_counter[1], 10);
 		minuses = parseInt(pm_counter[2], 10);
 		//pluses = 0; //DEBUG
 		//minuses = 2; //DEBUG
 		var user_karma_ratio_percent = 0;
-		$("div.profile_wrap div:contains('пикабушни') br:last").before("&nbsp;&nbsp;<br><span class='ph_user_karma_bar'></span>");
+		$("div.b-user-profile div:contains('пикабушни') br:last").before("&nbsp;&nbsp;<br><span class='ph_user_karma_bar'></span>");
 		var ph_user_karma_bar_borders_width = parseInt($(".ph_user_karma_bar").css("borderRightWidth"), 10) + parseInt($(".ph_user_karma_bar").css("borderLeftWidth"), 10);
 		$(".ph_user_karma_bar").width($(".b-user-profile__label:contains('поставил')").width() + $(".b-user-profile__label:contains('поставил')").next().width() - ph_user_karma_bar_borders_width);
 		
@@ -190,6 +192,12 @@
 	function all_feeds_functions() {
 		//fix_gleam_url();
 		fix_links();
+
+		$(document).ajaxComplete(function(event, xhr, settings) {
+			if (settings.url.indexOf("twitmode=1") >=0) {
+				fix_links();
+			}
+		});
 	}
 
 	switch (true) {
@@ -202,6 +210,7 @@
 			if(DEBUG) console.log("SWITCH: 👤 Someone's profile");
 			add_user_karma_bar();
 			move_user_profile_tools();
+			all_feeds_functions();
 			break;
 		case /^\/best.*/.test(path):
 			if(DEBUG) console.log("SWITCH: 😎 the best of the best of the best of the...");
